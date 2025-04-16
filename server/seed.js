@@ -7,6 +7,7 @@ const {
     fetchRestaurants,
     createReservation,
     destroyReservation,
+    fetchReservations,
 } = require("./db");
 
 const init = async () => {

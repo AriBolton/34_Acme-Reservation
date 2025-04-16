@@ -3,7 +3,7 @@ const uuid = require("uuid");
 require("dotenv");
 
 const client = new pg.Client(
-    process.env.DATABASE_URL || "postgres://localhost/acme_reservation__db"
+    process.env.DATABASE_URL || "postgres://localhost/acme_reservation_db"
 );
 
 async function createTables() {
@@ -13,20 +13,12 @@ async function createTables() {
     // party_count (INTEGER NOT NULL)- how? use curse
 
     const SQL = `
-        DROP TABLE IF EXISTS customers;
+    DROP TABLE IF EXISTS reservations;     
+    DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS restaurants;
-DROP TABLE IF EXISTS reservations; 
-
-        CREATE TABLE reservations(
-            id UUID PRIMARY KEY,
-            date DATE NOT NULL,
-            party_count INTEGER NOT NULL,
-            restaurant_id UUID REFERENCES restaurants(id) NOT NULL,
-            customer_id UUID REFERENCES customers(id) NOT NULL
-        );
 
 
-        CREATE TABLE restaurants(
+    CREATE TABLE restaurants(
             id UUID PRIMARY KEY,
             name VARCHAR(255) NOT NULL
         );
@@ -34,6 +26,14 @@ DROP TABLE IF EXISTS reservations;
         CREATE TABLE customers(
             id UUID PRIMARY KEY,
             name VARCHAR(255) NOT NULL
+        );
+
+    CREATE TABLE reservations(
+            id UUID PRIMARY KEY,
+            date DATE NOT NULL,
+            party_count INTEGER NOT NULL,
+            restaurant_id UUID REFERENCES restaurants(id) NOT NULL,
+            customer_id UUID REFERENCES customers(id) NOT NULL
         );
     `;
 
@@ -67,6 +67,7 @@ async function fetchRestaurants() {
 }
 
 async function createReservation({ date, party_count, customer_id, restaurant_id }) {
+    console.log("inside create res function");
     const SQL = `INSERT INTO reservations(id, date, party_count, customer_id, restaurant_id) 
                  VALUES($1, $2, $3, $4, $5) RETURNING *`;
     const dbResponse = await client.query(SQL, [
@@ -76,6 +77,7 @@ async function createReservation({ date, party_count, customer_id, restaurant_id
         customer_id,
         restaurant_id
     ]);
+    console.log("db response", dbResponse);
     return dbResponse.rows[0];
 }
 

@@ -50,12 +50,14 @@ server.get("/api/reservations", async (req, res, next) => {
 
 server.post("/api/customers/:id/reservations", async (req, res, next) => {
     try {
+        console.log("hit endpoint");
         const reservation = await createReservation({
             date: req.body.date,
             party_count: req.body.party_count,
             customer_id: req.params.id,
             restaurant_id: req.body.restaurant_id
         });
+        console.log(reservation);
         res.status(201).send(reservation);
     } catch (error) {
         next(error);
