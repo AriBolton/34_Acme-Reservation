@@ -14,8 +14,8 @@ async function createTables() {
 
     const SQL = `
         DROP TABLE IF EXISTS customers;
-        DROP TABLE IF EXISTS restaurnats;
-        DROP TABLE IF EXISTS reservations;
+DROP TABLE IF EXISTS restaurants;
+DROP TABLE IF EXISTS reservations; 
 
         CREATE TABLE reservations(
             id UUID PRIMARY KEY,
@@ -85,9 +85,9 @@ async function fetchReservations() {
     return dbResponse.rows;
 }
 
-async function destroyReservation(id, user_id) {
-    const SQL = `DELETE FROM reservations WHERE id=$1`;
-    await client.query(SQL, [id, user_id]);
+async function destroyReservation(id, customer_id) {
+    const SQL = `DELETE FROM reservations WHERE id=$1 AND customer_id=$2`;
+    await client.query(SQL, [id, customer_id]);
 }
 
 module.exports = {

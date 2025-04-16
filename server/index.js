@@ -5,6 +5,7 @@ const {
     createRestaurant,
     fetchCustomers,
     fetchRestaurants,
+    fetchReservations,
     createReservation,
     destroyReservation,
 } = require("./db");
@@ -50,11 +51,12 @@ server.get("/api/reservations", async (req, res, next) => {
 server.post("/api/customers/:id/reservations", async (req, res, next) => {
     try {
         const reservation = await createReservation({
-            // departure_date: req.body.departure_date,
-            // user_id: req.params.user_id,
-            // place_id: req.body.place_id,
+            date: req.body.date,
+            party_count: req.body.party_count,
+            customer_id: req.params.id,
+            restaurant_id: req.body.restaurant_id
         });
-        res.send(reservation);
+        res.status(201).send(reservation);
     } catch (error) {
         next(error);
     }
