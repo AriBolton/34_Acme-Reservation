@@ -1,0 +1,30 @@
+{
+  "name": "34_acme-reservation",
+  "version": "1.0.0",
+  "description": "Block34_Acme Reservation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AriBolton/34_Acme-Reservation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AriBolton/34_Acme-Reservation/issues"
+  },
+  "homepage": "https://github.com/AriBolton/34_Acme-Reservation#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.14.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
