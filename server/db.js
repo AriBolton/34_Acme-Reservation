@@ -19,9 +19,10 @@ async function createTables() {
 
         CREATE TABLE reservations(
             id UUID PRIMARY KEY,
-            customer_id UUID REFERENCES customers(id) NOT NULL,
+            date DATE NOT NULL,
+            party_count INTEGER NOT NULL,
             restaurant_id UUID REFERENCES restaurants(id) NOT NULL,
-            
+            customer_id UUID REFERENCES customers(id) NOT NULL
         );
 
 
@@ -65,13 +66,15 @@ async function fetchRestaurants() {
     return dbResponse.rows;
 }
 
-async function createReservation({ departure_date, user_id, place_id }) {
-    const SQL = `INSERT INTO reservations(id, user_id, place_id, travel_date) VALUES($1, $2, $3, $4) RETURNING *`;
+async function createReservation({ date, party_count, customer_id, restaurant_id }) {
+    const SQL = `INSERT INTO reservations(id, date, party_count, customer_id, restaurant_id) 
+                 VALUES($1, $2, $3, $4, $5) RETURNING *`;
     const dbResponse = await client.query(SQL, [
         uuid.v4(),
-        user_id,
-        place_id,
-        departure_date,
+        date,
+        party_count,
+        customer_id,
+        restaurant_id
     ]);
     return dbResponse.rows[0];
 }
